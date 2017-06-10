@@ -1,0 +1,191 @@
+
+{% use "form_div_layout.html.twig" %}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' input')|trim}) %}
+
+    {% if not valid %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-danger')|trim}) %}
+    {% endif %}
+
+    <div class="field-body">
+        <div class="field">
+            <div class="control">
+                {{- parent() -}}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    </div>
+{%- endblock form_widget_simple -%}
+
+{% block textarea_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' textarea')|trim}) %}
+
+    {% if not valid %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-danger')|trim}) %}
+    {% endif %}
+
+    <div class="field-body">
+        <div class="field">
+            <div class="control">
+                {{- parent() -}}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    </div>
+{%- endblock textarea_widget %}
+
+{% block choice_widget_collapsed -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+
+    {% set select_class = [] %}
+
+    {% if form.vars.multiple %}
+        {% set select_class = select_class|merge(['select-multiple']) %}
+    {% endif  %}
+
+    {% if not valid %}
+        {% set select_class = select_class|merge(['is-danger']) %}
+    {% endif %}
+
+    <div class="field-body">
+        <div class="field is-narrow">
+            <div class="control">
+                <div class="select is-fullwidth {% if select_class %}{{ select_class|join(' ') }}{% endif %}">
+                    {{- parent() -}}
+                </div>
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    </div>
+{%- endblock %}
+
+{% block checkbox_row -%}
+    <div class="field is-horizontal">
+        <div class="field-label is-normal"></div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control inline">
+                    {{- form_widget(form) -}}
+                    {{- form_errors(form) -}}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock checkbox_row %}
+
+{% block checkbox_widget -%}
+    {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' checkbox')|trim}) %}
+    {{- form_label(form, null, { widget: parent(), label_attr: label_attr }) -}}
+{%- endblock checkbox_widget %}
+
+{% block radio_widget -%}
+    {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' radio')|trim}) %}
+    {{- form_label(form, null, { widget: parent(), label_attr: label_attr }) -}}
+{%- endblock radio_widget %}
+
+{% block checkbox_label -%}
+    {{- block('checkbox_radio_label') -}}
+{%- endblock checkbox_label %}
+
+{% block checkbox_radio_label %}
+    {# Do not display the label if widget is not defined in order to prevent double label rendering #}
+    {% if widget is defined %}
+        {% if parent_label_class is defined %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) %}
+        {% endif %}
+        {% if label is not same as(false) and label is empty %}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {{- widget|raw }} {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+        </label>
+    {% endif %}
+{% endblock checkbox_radio_label %}
+
+{%- block choice_widget_expanded -%}
+    <div class="field-body">
+        <div class="field">
+            <div class="control inline">
+                {%- for child in form -%}
+                    {{- form_widget(child, {
+                        inline_choice: inline_choice|default(false),
+                        translation_domain: choice_translation_domain,
+                    }) -}}
+                {%- endfor -%}
+
+                {{- block('form_errors') -}}
+            </div>
+        </div>
+    </div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block form_row -%}
+    <div class="field is-horizontal">
+        {{- form_label(form) -}}
+
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' label')|trim}) %}
+
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+
+        <div class="field-label is-normal">
+            <label{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+        </div>
+
+    {%- endif -%}
+{%- endblock form_label -%}
+
+{% block button_row -%}
+    <div class="field is-horizontal">
+        <div class="field-label"></div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control inline">
+                    {{- form_widget(form) -}}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock button_row %}
+
+{% block button_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' button')|trim}) %}
+    {{- parent() -}}
+{%- endblock %}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        {%- for error in errors -%}
+            <p class="help is-danger">{{ error.message }}</p>
+        {%- endfor -%}
+    {%- endif -%}
+{%- endblock form_errors -%}

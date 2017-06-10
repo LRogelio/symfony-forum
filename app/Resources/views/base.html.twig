@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ (title|default(false)) ? title~' - Symfony Forum':'Symfony Forum' }}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <nav class="nav has-shadow">
+        <div class="nav-left">
+            <a href="/" class="nav-item">Symfony Forum</a>
+        </div>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="container">
+
+        {% if breadcrumbs is defined and breadcrumbs %}
+            {% include 'partials/breadcrumbs.html.twig' %}
+        {% endif %}
+
+        {% if title is defined %}
+            <h1 class="title is-1">{{ title }}</h1>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Symfony Forum</strong> is a forum powered by <a href="http://symfony.com" target="_blank">Symfony</a>.
+            </p>
+            <p>
+                <a class="icon" href="#">
+                    <i class="fa fa-github"></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>

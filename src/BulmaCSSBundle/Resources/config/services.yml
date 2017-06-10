@@ -1,0 +1,4 @@
+services:
+#    bulma_css.example:
+#        class: BulmaCSSBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

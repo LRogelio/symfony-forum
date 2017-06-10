@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="block">
+        <a class="button is-primary" href="{{ path('topic_comment_add') }}">Add Message</a>
+    </div>
+
+    <table class="table is-bordered thread">
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+               <td class="author">
+                   Published at<br>
+                   {{ comment.updatedAt|date('d/m/Y H:i') }}
+               </td>
+               <td class="content">
+                   {{ comment.message }}
+               </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <nav class="pagination is-centered" style="display: none">
+        <ul class="pagination-list">
+            <li><a class="pagination-link">1</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a class="pagination-link">45</a></li>
+            <li><a class="pagination-link is-current">46</a></li>
+            <li><a class="pagination-link">47</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a class="pagination-link">86</a></li>
+        </ul>
+    </nav>
+{% endblock %}

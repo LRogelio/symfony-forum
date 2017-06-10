@@ -1,0 +1,13 @@
+
+<div class="breadcrumbs">
+    {% for item in breadcrumbs  %}
+        <a href="{{ item.url }}">{{ item.text }}</a>
+
+        {% if not loop.last %}
+            <span class="separator">
+               <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+        {% endif %}
+    {% endfor %}
+</div>
+

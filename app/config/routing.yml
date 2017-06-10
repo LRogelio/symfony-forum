@@ -1,0 +1,8 @@
+#bulma_css:
+#    resource: "@BulmaCSSBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

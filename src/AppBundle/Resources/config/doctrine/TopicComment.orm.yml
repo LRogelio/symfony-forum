@@ -1,0 +1,31 @@
+AppBundle\Entity\TopicComment:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\TopicCommentRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        topicId:
+            type: integer
+            column: topic_id
+        message:
+            type: text
+            nullable: true
+        createdAt:
+            type: datetime
+            column: created_at
+        updatedAt:
+            type: datetime
+            column: updated_at
+    lifecycleCallbacks: {  }
+    manyToOne:
+        topic:
+            targetEntity: Topic
+            joinColumn:
+                name: topic_id
+                referencedColumnName: id
+            fetch: EAGER

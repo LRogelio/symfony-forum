@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Add Topic' %}
+
+{% block content %}
+
+    {{ form_start(form, {
+        action: path('topic_add')
+    }) }}
+
+        {{ form_rest(form) }}
+
+        <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control inline">
+                        <button type="submit" class="button is-primary">Save</button>
+                        <button type="button" class="button" onclick="javascript:window.history.go(-1);">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

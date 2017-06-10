@@ -29,7 +29,7 @@ class LoadTopicCommentsData extends AbstractBaseFixture implements OrderedFixtur
 				}
 
 				$comment = (new TopicComment())
-					->setTopicId($topic->getId())
+					->setTopic($topic)
 					->setMessage('#'.$i.' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor eget urna ac ultrices. In ac luctus leo. Sed eget elit iaculis, luctus neque vitae, auctor tortor. Sed nec eros a sem eleifend suscipit quis sit amet neque. Pellentesque rhoncus massa quis diam luctus facilisis. Donec eu bibendum enim, iaculis suscipit orci. Nulla sed commodo augue, vel ultricies urna. Duis lorem elit, maximus at lectus ac, vestibulum placerat eros.')
 					->setCreatedAt($date)
 					->setUpdatedAt($date);

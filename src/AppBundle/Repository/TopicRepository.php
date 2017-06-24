@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * TopicRepository
@@ -11,7 +12,8 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class TopicRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getTopicsWithLastComment($categoryId)
+	//params page, num items
+	public function getTopicsWithLastComment($categoryId, $offset = 0, $limit = null)
 	{
 		$countField = 'SELECT COUNT(c3) FROM AppBundle:TopicComment c3 WHERE c3.topicId=t.id';
 		$dateSubquery = 'SELECT MAX(c2.createdAt) FROM AppBundle:TopicComment c2 WHERE c2.topicId=t.id';
@@ -24,6 +26,14 @@ class TopicRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('categoryId', $categoryId)
 			->getQuery();
 
-		return $query->getArrayResult();
+		$query->setFirstResult($offset);
+
+		if ($limit)
+			$query->setMaxResults($limit);
+
+		$paginator = new Paginator($query);
+		$paginator->setUseOutputWalkers(false);
+
+		return $paginator;
 	}
 }

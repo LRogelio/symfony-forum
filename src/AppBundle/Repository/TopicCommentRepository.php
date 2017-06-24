@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * TopicCommentRepository
  *
@@ -10,7 +12,7 @@ namespace AppBundle\Repository;
  */
 class TopicCommentRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getComments($topicId)
+	public function getComments($topicId, $offset = 0, $limit = null)
 	{
 		$query = $this->createQueryBuilder('c')
 			->where('c.topicId = :topicId')
@@ -18,6 +20,13 @@ class TopicCommentRepository extends \Doctrine\ORM\EntityRepository
 			->orderBy('c.createdAt', 'ASC')
 			->getQuery();
 
-		return $query->getResult();
+		$query->setFirstResult($offset);
+
+		if ($limit)
+			$query->setMaxResults($limit);
+
+		$paginator = new Paginator($query);
+
+		return $paginator;
 	}
 }

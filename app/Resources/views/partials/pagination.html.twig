@@ -1,0 +1,16 @@
+
+{% set numPages = (paginator.count/itemsPage)|round(0, 'ceil') %}
+
+{% if numPages > 1 %}
+    <nav class="pagination is-centered">
+        <ul class="pagination-list">
+            {% for i in 1..numPages %}
+                {% set url = uri ~ i %}
+
+                <li>
+                    <a class="pagination-link {{ (i == currentPage)?'is-current':'' }}" {% if (i != currentPage) %}href="{{ url }}"{% endif %}>{{ i }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

@@ -5,8 +5,10 @@
 {% block content %}
 
     {{ form_start(form, {
-        action: path('topic_add')
+        action: path('topic_add', {category: category.id})
     }) }}
+
+        {{ form_row(form.topic.title) }}
 
         {{ form_rest(form) }}
 

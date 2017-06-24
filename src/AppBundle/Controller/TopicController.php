@@ -3,24 +3,31 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Topic;
+use AppBundle\Entity\TopicCategory;
 use AppBundle\Entity\TopicComment;
 use AppBundle\Form\TopicCommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Form\TopicType;
+use AppBundle\Form\NewTopicType;
 use Symfony\Component\HttpFoundation\Request;
 
 class TopicController extends Controller
 {
+	protected $maxCommentsPage = 25;
+
 	/**
-	 * @Route("/topic/{topic}", name="topic_view", requirements={"topic": "\d+"})
+	 * @Route("/topic/{topic}", name="topic_view")
 	 */
-	public function viewTopicAction(Topic $topic)
+	public function viewTopicAction(Request $request, Topic $topic)
 	{
+		$page = $request->query->get('page', 1);
+
+		$offset = $this->maxCommentsPage * ($page - 1);
+
 		$category = $topic->getCategory();
 
 		$em = $this->getDoctrine()->getManager();
-		$comments = $em->getRepository('AppBundle:TopicComment')->getComments($topic->getId());
+		$comments = $em->getRepository('AppBundle:TopicComment')->getComments($topic->getId(), $offset, $this->maxCommentsPage);
 
 		$breadcrumbs = [
 			['url' => $this->generateUrl('homepage'), 'text' => 'Forum'],
@@ -31,20 +38,21 @@ class TopicController extends Controller
 			'title' => $topic->getTitle(),
 			'topic' => $topic,
 			'comments' => $comments,
-			'breadcrumbs' => $breadcrumbs
+			'breadcrumbs' => $breadcrumbs,
+			'maxCommentsPage' => $this->maxCommentsPage,
+			'currentPage' => $page
 		]);
 	}
 
 	/**
-	 * @Route("/topic/add", name="topic_add")
+	 * @Route("/category/{category}/topic/add", name="topic_add")
 	 */
-	public function createTopicAction(Request $request)
+	public function createTopicAction(Request $request, TopicCategory $category)
 	{
-		$topicEntry = (new Topic())
-			->setCreatedAt(new \DateTime())
-			->setUpdatedAt(new \DateTime());
+		$topicEntry = (new Topic())->setCategoryId($category->getId());
+		$commentEntry = (new TopicComment())->setTopic($topicEntry);
 
-		$form = $this->createForm(TopicType::class, $topicEntry);
+		$form = $this->createForm(NewTopicType::class, $commentEntry);
 
 		$form->handleRequest($request);
 
@@ -52,52 +60,54 @@ class TopicController extends Controller
 		{
 			$em = $this->getDoctrine()->getManager();
 
+			$commentEntry
+	             ->setCreatedAt(new \DateTime())
+	             ->setUpdatedAt(new \DateTime());
+
+			$commentEntry->getTopic()
+				->setCreatedAt(new \DateTime())
+				->setUpdatedAt(new \DateTime())
+				->setCategory($category);
+
 			$em->persist($topicEntry);
+			$em->persist($commentEntry);
 			$em->flush();
 
 			return $this->redirectToRoute('topic_view', ['topic' => $topicEntry->getId()]);
 		}
 
 		return $this->render('topic/add.html.twig', [
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'category' => $category
 		]);
 	}
 
 	/**
-	 * @Route("/topic/message/add", name="topic_comment_add")
+	 * @Route("/topic/{topic}/comment/add", name="topic_comment_add")
 	 */
-	public function createCommentAction(Request $request)
+	public function createCommentAction(Request $request, Topic $topic)
 	{
-		$topicCommentEntry = (new TopicComment())
-			->setCreatedAt(new \DateTime())
-			->setUpdatedAt(new \DateTime());
-
-		$form = $this->createForm(TopicCommentType::class, $topicCommentEntry);
+		$form = $this->createForm(TopicCommentType::class);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid())
 		{
 			$em = $this->getDoctrine()->getManager();
 
+			$topicCommentEntry = $form->getData()
+				->setCreatedAt(new \DateTime())
+				->setUpdatedAt(new \DateTime())
+				->setTopic($topic);
+
 			$em->persist($topicCommentEntry);
 			$em->flush();
 
-			return $this->redirectToRoute('homepage');
+			return $this->redirectToRoute('topic_view', ['topic' => $topic->getId()]);
 		}
 
 		return $this->render('topic/add_comment.html.twig', [
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'topic' => $topic
 		]);
-	}
-
-	public function editCommentAction()
-	{
-
-	}
-
-	// ajax action that previews the rendered message
-	public function previewCommentAction()
-	{
-
 	}
 }

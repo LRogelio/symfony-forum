@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="block">
-        <a class="button is-primary" href="{{ path('topic_add') }}">Create Topic</a>
+        <a class="button is-primary" href="{{ path('topic_add', {category: category.id}) }}">Create Topic</a>
     </div>
 
     <table class="table is-bordered topic-list">
@@ -14,6 +14,7 @@
         </tr>
         </thead>
         <tbody>
+
         {% for topic in topics %}
             <tr>
                 <td>
@@ -28,15 +29,11 @@
         </tbody>
     </table>
 
-    <nav class="pagination is-centered">
-        <ul class="pagination-list">
-            <li><a class="pagination-link">1</a></li>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
-            <li><a class="pagination-link">45</a></li>
-            <li><a class="pagination-link is-current">46</a></li>
-            <li><a class="pagination-link">47</a></li>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
-            <li><a class="pagination-link">86</a></li>
-        </ul>
-    </nav>
+    {% include 'partials/pagination.html.twig' with {
+        paginator: topics,
+        currentPage: currentPage,
+        itemsPage: maxTopicsPage,
+        uri: path('category_topics', { category: category.id }) ~ '?page='
+    } only %}
+
 {% endblock %}

@@ -5,10 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\TopicCategory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class ForumController extends Controller
 {
+	protected $maxTopicsPage = 15;
+
     /**
      * @Route("/", name="homepage")
      */
@@ -23,21 +26,27 @@ class ForumController extends Controller
 	/**
 	 * @Route("/category/{category}", name="category_topics")
 	 */
-	public function listCategoryTopic(TopicCategory $category)
+	public function listCategoryTopic(Request $request, TopicCategory $category)
 	{
-		$em = $this->getDoctrine()->getManager();
-		//->findBy(['categoryId' => $category->getId()]);
+		$page = $request->query->get('page', 1);
 
-		$topics = $em->getRepository('AppBundle:Topic')->getTopicsWithLastComment($category->getId());
+		$offset = $this->maxTopicsPage * ($page - 1);
+
+		$em = $this->getDoctrine()->getManager();
+
+		$topics = $em->getRepository('AppBundle:Topic')->getTopicsWithLastComment($category->getId(), $offset, $this->maxTopicsPage);
 
 		$breadcrumbs = [
 			['url' => $this->generateUrl('homepage'), 'text' => 'Forum']
 		];
 
 		return $this->render('forum/category_list_topics.html.twig', [
+			'category' => $category,
 			'topics' => $topics,
 			'title' => $category->getName(),
-			'breadcrumbs' => $breadcrumbs
+			'breadcrumbs' => $breadcrumbs,
+			'maxTopicsPage' => $this->maxTopicsPage,
+			'currentPage' => $page
 		]);
 	}
 }

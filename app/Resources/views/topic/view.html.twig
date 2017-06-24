@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="block">
-        <a class="button is-primary" href="{{ path('topic_comment_add') }}">Add Message</a>
+        <a class="button is-primary" href="{{ path('topic_comment_add', { topic: topic.id }) }}">Add Message</a>
     </div>
 
     <table class="table is-bordered thread">
@@ -21,15 +21,10 @@
         </tbody>
     </table>
 
-    <nav class="pagination is-centered" style="display: none">
-        <ul class="pagination-list">
-            <li><a class="pagination-link">1</a></li>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
-            <li><a class="pagination-link">45</a></li>
-            <li><a class="pagination-link is-current">46</a></li>
-            <li><a class="pagination-link">47</a></li>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
-            <li><a class="pagination-link">86</a></li>
-        </ul>
-    </nav>
+    {% include 'partials/pagination.html.twig' with {
+        paginator: comments,
+        currentPage: currentPage,
+        itemsPage: maxCommentsPage,
+        uri: path('topic_view', { topic: topic.id }) ~ '?page='
+    } only %}
 {% endblock %}

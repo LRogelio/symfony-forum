@@ -1,0 +1,20 @@
+
+{# get from controller items per page and pass to this partial #}
+
+{% set hideTopic = hideTopic|default(false) %}
+
+{% if lastComment %}
+
+    {% set page = ((lastComment.topic.comments|length)/maxCommentsPage)|round(0, 'ceil') %}
+    {% set url = path('topic_view', { topic: lastComment.topicId })  %}
+
+    {% if not hideTopic %}
+        <a href="{{ url }}">{{ lastComment.topic.title }}</a><br/>
+    {% endif %}
+
+    by <b>{{ lastComment.user.username }}</b>
+    on <b>{{ lastComment.createdAt|date('d M Y H:i') }}</b>
+    <a href="{{ url ~ '?page=' ~ page }}" title="Go to latest post">
+        <i class="fa fa-caret-square-o-right"></i>
+    </a>
+{% endif %}

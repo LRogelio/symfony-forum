@@ -13,21 +13,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TopicController extends Controller
 {
-	protected $maxCommentsPage = 25;
-
 	/**
 	 * @Route("/topic/{topic}", name="topic_view")
 	 */
 	public function viewTopicAction(Request $request, Topic $topic)
 	{
+		$maxCommentsPage = $this->container->getParameter('maxCommentsPage');
+
 		$page = $request->query->get('page', 1);
 
-		$offset = $this->maxCommentsPage * ($page - 1);
+		$offset = $maxCommentsPage * ($page - 1);
 
 		$category = $topic->getCategory();
 
 		$em = $this->getDoctrine()->getManager();
-		$comments = $em->getRepository('AppBundle:TopicComment')->getComments($topic->getId(), $offset, $this->maxCommentsPage);
+		$comments = $em->getRepository('AppBundle:TopicComment')->getComments($topic->getId(), $offset, $maxCommentsPage);
 
 		$breadcrumbs = [
 			['url' => $this->generateUrl('homepage'), 'text' => 'Forum'],
@@ -39,7 +39,6 @@ class TopicController extends Controller
 			'topic' => $topic,
 			'comments' => $comments,
 			'breadcrumbs' => $breadcrumbs,
-			'maxCommentsPage' => $this->maxCommentsPage,
 			'currentPage' => $page
 		]);
 	}
@@ -49,6 +48,10 @@ class TopicController extends Controller
 	 */
 	public function createTopicAction(Request $request, TopicCategory $category)
 	{
+		if (!$this->getUser()) {
+			return $this->redirectToRoute('login');
+		}
+
 		$topicEntry = (new Topic())->setCategoryId($category->getId());
 		$commentEntry = (new TopicComment())->setTopic($topicEntry);
 
@@ -56,18 +59,20 @@ class TopicController extends Controller
 
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid())
-		{
+		if ($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
+			$user = $this->getUser();
 
 			$commentEntry
 	             ->setCreatedAt(new \DateTime())
-	             ->setUpdatedAt(new \DateTime());
+	             ->setUpdatedAt(new \DateTime())
+				 ->setUser($user);
 
 			$commentEntry->getTopic()
 				->setCreatedAt(new \DateTime())
 				->setUpdatedAt(new \DateTime())
-				->setCategory($category);
+				->setCategory($category)
+				->setUser($user);
 
 			$em->persist($topicEntry);
 			$em->persist($commentEntry);
@@ -87,16 +92,20 @@ class TopicController extends Controller
 	 */
 	public function createCommentAction(Request $request, Topic $topic)
 	{
+		if (!$this->getUser()) {
+			return $this->redirectToRoute('login');
+		}
+
 		$form = $this->createForm(TopicCommentType::class);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid())
-		{
+		if ($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
 
 			$topicCommentEntry = $form->getData()
 				->setCreatedAt(new \DateTime())
 				->setUpdatedAt(new \DateTime())
+				->setUser($this->getUser())
 				->setTopic($topic);
 
 			$em->persist($topicCommentEntry);

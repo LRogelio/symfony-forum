@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    # Forum settings
+    maxTopicsPage: 10
+    maxCommentsPage: 20

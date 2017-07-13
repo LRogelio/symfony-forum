@@ -12,17 +12,15 @@
         </thead>
         <tbody>
         {% for category in categories %}
-
             <tr>
                 <td class="category">
                     <a href="{{ path('category_topics', { category: category.id }) }}">{{ category.name }}</a>
                     <div>{{ category.description }}</div>
                 </td>
                 <td class="last-comment">
-                    {% if category.topicId %}
-                        <a href="{{ path('topic_view', { topic: category.topicId }) }}">{{ category.topicTitle }}</a><br>
-                        on {{ category.commentCreatedAt|date('d M Y H:i') }}
-                    {% endif %}
+                    {% include 'partials/last_comment.html.twig' with {
+                        lastComment: latestComments[category.id]
+                    } only %}
                 </td>
             </tr>
         {% endfor %}

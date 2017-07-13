@@ -16,6 +16,9 @@ AppBundle\Entity\Topic:
             type: integer
             nullable: true
             column: category_id
+        userId:
+            type: integer
+            column: user_id
         createdAt:
             type: datetime
             nullable: true
@@ -32,3 +35,15 @@ AppBundle\Entity\Topic:
                 name: category_id
                 referencedColumnName: id
             fetch: EAGER
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+            fetch: EAGER
+    oneToMany:
+        comments:
+            targetEntity: TopicComment
+            mappedBy: topic
+            fetch: EXTRA_LAZY
+            orderBy: { 'createdAt': 'DESC' }

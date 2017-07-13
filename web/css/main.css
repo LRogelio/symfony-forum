@@ -1,3 +1,17 @@
+/* Nav */
+.nav .nav-logged-user .nav-item {
+    padding-right: 2px;
+    padding-left: 2px;
+}
+.nav .nav-logged-user .nav-item span.icon {
+    margin-right: 5px;
+}
+.nav .nav-logged-user a,
+.nav .nav-logged-user a:hover {
+    text-decoration: none;
+}
+
+
 /* Forms */
 .control.inline .radio, .control.inline .checkbox {
     line-height: 2.15;
@@ -14,7 +28,11 @@
     padding: 5px 9px;
 }
 
-    /* Breadcrumbs */
+.profile, .links {
+    clear: both;
+}
+
+/* Breadcrumbs */
 .breadcrumbs {
     font-size: 13px;
 }
@@ -53,8 +71,38 @@ table.table thead td {
 .topic-list .last-comment {
     width: 30%;
 }
+.topic-list td.topic {
+    font-size: 14px;
+}
+.topic-list td.topic a {
+    font-size: 16px;
+}
 
 /* Table thread */
-.thread .author {
+table.thread .author {
     width: 20%;
+    font-weight: bold;
+    font-size: 18px;
+}
+table.thread .message {
+    padding: 0;
+    background-color: transparent;
+}
+table.thread .message .date {
+    padding: .3em .75em;
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #dbdbdb;
+    font-size: 14px;
+}
+table.thread .message .content {
+    padding: .8em .75em;
+}
+
+/* last comment  */
+td.last-comment {
+   font-size: 14px;
+}
+td.last-comment i.fa {
+    vertical-align: baseline;
+    font-size: 16px;
 }

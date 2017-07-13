@@ -37,6 +37,29 @@ class Topic
 	 */
 	private $category;
 
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $comments;
+
+	/**
+	 * @var integer
+	 */
+	private $userId;
+
+	/**
+	 * @var \AppBundle\Entity\User
+	 */
+	private $user;
+
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
     /**
      * Get id
@@ -166,5 +189,97 @@ class Topic
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\TopicComment $comment
+     *
+     * @return Topic
+     */
+    public function addComment(\AppBundle\Entity\TopicComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\TopicComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\TopicComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+	/**
+	 * Get last comment
+	 * @return mixed
+	 */
+    public function getLastComment()
+    {
+    	$comment = $this->comments->slice(0, 1);
+    	return array_shift($comment);
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     *
+     * @return Topic
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Topic
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

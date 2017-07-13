@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Login' %}
+
+{% block content %}
+
+    {% if error %}
+        <div class="notification is-danger">
+            {{ error.messageKey|trans(error.messageData) }}
+        </div>
+    {% endif %}
+
+    <form name="login" method="POST" action="">
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="username">User</label>
+            </div>
+
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="text" id="username" name="username" class="input" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="password">Password</label>
+            </div>
+
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input type="password" id="password" name="password" class="input" autocomplete="off" >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control inline">
+                        <button type="submit" class="button is-primary">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

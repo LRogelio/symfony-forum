@@ -17,13 +17,19 @@
 
         {% for topic in topics %}
             <tr>
-                <td>
-                    <a href="{{ path('topic_view', { topic: topic.id }) }}">{{ topic.title }}</a>
+                <td class="topic">
+                    <a href="{{ path('topic_view', { topic: topic.id }) }}">{{ topic.title }}</a> <br>
+                    by <b>{{ topic.user.username }}</b>
                 </td>
+
                 <td class="last-comment">
-                    <a href="#{{ topic.commentId }}">{{ topic.commentCreatedAt|date('d M Y H:i') }}</a>
+                    {% include 'partials/last_comment.html.twig' with {
+                        lastComment: topic.comments|first,
+                        hideTopic: true
+                    } only %}
                 </td>
-                <td>{{ topic.totalComments }}</td>
+
+                <td>{{ topic.comments|length }}</td>
             </tr>
         {% endfor %}
         </tbody>

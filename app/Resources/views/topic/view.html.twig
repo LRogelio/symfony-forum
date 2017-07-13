@@ -9,13 +9,17 @@
         <tbody>
         {% for comment in comments %}
             <tr>
-               <td class="author">
-                   Published at<br>
-                   {{ comment.updatedAt|date('d/m/Y H:i') }}
-               </td>
-               <td class="content">
-                   {{ comment.message }}
-               </td>
+                <td class="author">
+                   {{ comment.user.username }}
+                </td>
+                <td class="message">
+                    <div class="date">
+                        {{ comment.updatedAt|date('d/m/Y H:i') }}
+                    </div>
+                    <div class="content">
+                        {{ comment.message }}
+                    </div>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

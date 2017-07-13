@@ -15,9 +15,58 @@
 
 <div class="container">
     <nav class="nav has-shadow">
-        <div class="nav-left">
+
+        <div class="nav-menu nav-left">
             <a href="/" class="nav-item">Symfony Forum</a>
         </div>
+
+        {% if app.user != null %}
+            <!-- Logged In -->
+            <div class="nav-menu nav-right nav-logged-user">
+                <div class="nav-item is-hidden-mobile">
+                    <span class="icon">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    </span>
+                    <span>{{ app.user.username }}</span>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="button is-link is-primary is-inverted">
+                        My Profile
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ path('logout') }}" class="button is-link is-primary is-inverted">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Guest -->
+            <div class="nav-right nav-menu">
+                <div class="nav-item">
+                    <a href="{{ path('login') }}" class="button">
+                    <span class="icon">
+                      <i class="fa fa-sign-in"></i>
+                    </span>
+                        <span>Log In</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ path('signup') }}" class="button is-primary">
+                    <span class="icon">
+                      <i class="fa fa-user" aria-hidden="true"></i>
+                    </span>
+                        <span>Register</span>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        <span class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
     </nav>
 </div>
 
@@ -52,5 +101,6 @@
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

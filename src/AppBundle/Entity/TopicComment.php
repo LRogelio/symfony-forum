@@ -37,6 +37,16 @@ class TopicComment
 	 */
 	private $topic;
 
+	/**
+	 * @var integer
+	 */
+	private $userId;
+
+	/**
+	 * @var \AppBundle\Entity\User
+	 */
+	private $user;
+
     /**
      * Get id
      *
@@ -165,5 +175,53 @@ class TopicComment
     public function getTopic()
     {
         return $this->topic;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     *
+     * @return TopicComment
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return TopicComment
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

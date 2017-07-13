@@ -21,11 +21,21 @@ AppBundle\Entity\TopicComment:
         updatedAt:
             type: datetime
             column: updated_at
+        userId:
+            type: integer
+            column: user_id
     lifecycleCallbacks: {  }
     manyToOne:
         topic:
             targetEntity: Topic
+            inversedBy: comments
             joinColumn:
                 name: topic_id
+                referencedColumnName: id
+            fetch: EAGER
+        user:
+            targetEntity: User
+            joinColumn:
+                name: user_id
                 referencedColumnName: id
             fetch: EAGER

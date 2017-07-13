@@ -10,31 +10,40 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ForumController extends Controller
 {
-	protected $maxTopicsPage = 15;
-
     /**
      * @Route("/", name="homepage")
      */
     public function indexAction()
     {
 	    $em = $this->getDoctrine()->getManager();
-	    $categories = $em->getRepository('AppBundle:TopicCategory')->getCategoriesWithLastComment();
+	    $categories = $em->getRepository('AppBundle:TopicCategory')->findAll();
 
-	    return $this->render('forum/index.html.twig', ['categories' => $categories]);
+	    $latestComments = [];
+	    foreach ($categories as $category) {
+	    	$categoryId = $category->getId();
+	    	$latestComments[$categoryId] = $em->getRepository('AppBundle:TopicComment')->getLatestCommentByCategory($categoryId);
+	    }
+
+	    return $this->render('forum/index.html.twig', [
+	    	'categories' => $categories,
+		    'latestComments' => $latestComments
+	    ]);
     }
 
 	/**
 	 * @Route("/category/{category}", name="category_topics")
 	 */
-	public function listCategoryTopic(Request $request, TopicCategory $category)
+	public function listCategoryTopicsAction(Request $request, TopicCategory $category)
 	{
+		$maxTopicsPage = $this->container->getParameter('maxTopicsPage');
+
 		$page = $request->query->get('page', 1);
 
-		$offset = $this->maxTopicsPage * ($page - 1);
+		$offset = $maxTopicsPage * ($page - 1);
 
 		$em = $this->getDoctrine()->getManager();
 
-		$topics = $em->getRepository('AppBundle:Topic')->getTopicsWithLastComment($category->getId(), $offset, $this->maxTopicsPage);
+		$topics = $em->getRepository('AppBundle:Topic')->getTopics($category->getId(), $offset, $maxTopicsPage);
 
 		$breadcrumbs = [
 			['url' => $this->generateUrl('homepage'), 'text' => 'Forum']
@@ -45,7 +54,7 @@ class ForumController extends Controller
 			'topics' => $topics,
 			'title' => $category->getName(),
 			'breadcrumbs' => $breadcrumbs,
-			'maxTopicsPage' => $this->maxTopicsPage,
+			'maxTopicsPage' => $maxTopicsPage,
 			'currentPage' => $page
 		]);
 	}

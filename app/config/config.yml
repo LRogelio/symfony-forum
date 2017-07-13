@@ -41,6 +41,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - 'BulmaCSSBundle:Form:bulmacss_horizontal.html.twig'
+    globals:
+        maxCommentsPage: "%maxCommentsPage%"
 
 # Doctrine Configuration
 doctrine:

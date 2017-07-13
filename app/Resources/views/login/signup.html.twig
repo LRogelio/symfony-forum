@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Sign Up' %}
+
+{% block content %}
+
+    {# if form has user exists error show this   #}
+    {# #}
+
+    <div class="notification is-danger">
+        An user with this email and/or username exists. You can login <a href="{{ path('login') }}">here</a>.
+    </div>
+
+    {{ form_start(form) }}
+
+        {{ form_rest(form) }}
+
+        <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control inline">
+                        <button type="submit" class="button is-primary">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

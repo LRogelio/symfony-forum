@@ -34,7 +34,7 @@ class LoadTopicCategoriesData extends AbstractBaseFixture implements OrderedFixt
 		return [
 			'html' => [
 				'name' => 'HTML & CSS',
-				'description' => 'Anything related to Html, Css and preprocessors like Sass'
+				'description' => 'Anything related to HTML, CSS and preprocessors like SASS'
 			],
 			'js' => [
 				'name' => 'Javascript',
@@ -57,6 +57,6 @@ class LoadTopicCategoriesData extends AbstractBaseFixture implements OrderedFixt
 
 	public function getOrder()
 	{
-		return 1;
+		return 2;
 	}
 }

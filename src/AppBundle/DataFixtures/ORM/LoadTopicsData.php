@@ -14,6 +14,8 @@ class LoadTopicsData extends AbstractBaseFixture implements OrderedFixtureInterf
 
 		$data = $this->getData();
 
+		$user = $this->getReference('user-js-sensei');
+
 		foreach ($data as $key => $item)
 		{
 			$category = $this->getReference('category-' . $item['category']);
@@ -21,6 +23,7 @@ class LoadTopicsData extends AbstractBaseFixture implements OrderedFixtureInterf
 			$topic = (new Topic())
 				->setTitle($item['title'])
 				->setCategory($category)
+				->setUser($user)
 				->setUpdatedAt((new \DateTime()))
 				->setCreatedAt((new \DateTime()));
 
@@ -196,11 +199,16 @@ class LoadTopicsData extends AbstractBaseFixture implements OrderedFixtureInterf
 				'title' => 'good VPS based in europe',
 				'category' => 'hosting'
 			],
+			'php_design_patterns' => [
+				'title' => 'Which PHP design patterns are more important?',
+				'category' => 'php',
+				'created_at' => new \DateTime('2017-06-20 10:00:05')
+			]
 		];
 	}
 
 	public function getOrder()
 	{
-		return 2;
+		return 3;
 	}
 }

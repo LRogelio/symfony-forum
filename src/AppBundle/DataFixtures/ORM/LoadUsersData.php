@@ -35,10 +35,6 @@ class LoadUsersData extends AbstractBaseFixture implements OrderedFixtureInterfa
 		}
 
 		$manager->flush();
-
-//		$encoder = $this->get('security.password_encoder');
-//		$p = $encoder->encodePassword($user, '1234');
-//		dump($p);die;
 	}
 
 	protected function getData()

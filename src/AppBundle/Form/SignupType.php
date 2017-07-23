@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -52,7 +53,11 @@ class SignupType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => 'AppBundle\Entity\User'
+			'data_class' => 'AppBundle\Entity\User',
+			'constraints' => [
+				new UniqueEntity(['fields' => 'username', 'message' => 'This username is not available']),
+				new UniqueEntity(['fields' => 'email', 'message' => 'An user with this email already exists'])
+			]
 		));
 	}
 

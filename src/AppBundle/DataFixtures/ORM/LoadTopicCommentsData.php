@@ -14,17 +14,15 @@ class LoadTopicCommentsData extends AbstractBaseFixture implements OrderedFixtur
 
 		$data = $this->getData();
 
-		foreach ($data as $key => $item)
-		{
+		foreach ($data as $key => $item) {
 			$topic = $this->getReference('topic-' . $item['topic']);
 			$user = $this->getReference('user-' . $item['user']);
 
 			$date = $topic->getCreatedAt();
 
-			for ($i=1;$i<=$item['comments'];$i++)
-			{
-				if ($i>1)
-				{
+			for ($i=1;$i<=$item['comments'];$i++) {
+
+				if ($i>1) {
 					$date = clone $date;
 					$date->modify('+20 minutes');
 				}

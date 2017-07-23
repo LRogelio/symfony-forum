@@ -14,8 +14,7 @@ class LoadTopicCategoriesData extends AbstractBaseFixture implements OrderedFixt
 
 		$data = $this->getData();
 
-		foreach ($data as $key => $item)
-		{
+		foreach ($data as $key => $item) {
 			$category = new TopicCategory();
 			$category
 				->setName($item['name'])

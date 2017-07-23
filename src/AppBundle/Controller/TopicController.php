@@ -34,7 +34,7 @@ class TopicController extends Controller
 			['url' => $this->generateUrl('category_topics', ['category'=>$category->getId()]), 'text' => $category->getName()]
 		];
 
-		return $this->render('topic/view.html.twig', [
+		return $this->render('topic/view_topic.html.twig', [
 			'title' => $topic->getTitle(),
 			'topic' => $topic,
 			'comments' => $comments,
@@ -81,7 +81,7 @@ class TopicController extends Controller
 			return $this->redirectToRoute('topic_view', ['topic' => $topicEntry->getId()]);
 		}
 
-		return $this->render('topic/add.html.twig', [
+		return $this->render('topic/add_topic.html.twig', [
 			'form' => $form->createView(),
 			'category' => $category
 		]);
@@ -116,7 +116,36 @@ class TopicController extends Controller
 
 		return $this->render('topic/add_comment.html.twig', [
 			'form' => $form->createView(),
-			'topic' => $topic
+			'title' => 'Add Comment',
+			'topicTitle' => $topic->getTitle()
+		]);
+	}
+
+	/**
+	 * @Route("/topic/comment/edit/{id}", name="topic_comment_edit")
+	 */
+	public function editCommentAction(Request $request, TopicComment $comment)
+	{
+		if (!$this->getUser() || $this->getUser()->getId() !== $comment->getUser()->getId()) {
+			return $this->redirectToRoute('homepage');
+		}
+
+		$form = $this->createForm(TopicCommentType::class, $comment);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
+
+			return $this->redirectToRoute('topic_view', [
+				'topic' => $comment->getTopic()->getId()
+			]);
+		}
+
+		return $this->render('topic/add_comment.html.twig', [
+			'form' => $form->createView(),
+			'title' => 'Edit Comment',
+			'topicTitle' => $comment->getTopic()->getTitle()
 		]);
 	}
 }

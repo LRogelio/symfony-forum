@@ -1,19 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% set title = 'Add Message' %}
-
 {% block content %}
 
-    {{ form_start(form, {
-        action: path('topic_comment_add', {topic: topic.id})
-    }) }}
+    {{ form_start(form) }}
 
         <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label">Topic</label>
             </div>
             <div class="field-body">
-                {{ topic.title }}
+                {{ topicTitle }}
             </div>
         </div>
 

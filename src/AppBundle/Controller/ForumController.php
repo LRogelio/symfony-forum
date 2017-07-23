@@ -49,7 +49,7 @@ class ForumController extends Controller
 			['url' => $this->generateUrl('homepage'), 'text' => 'Forum']
 		];
 
-		return $this->render('forum/category_list_topics.html.twig', [
+		return $this->render('forum/list_category_topics.html.twig', [
 			'category' => $category,
 			'topics' => $topics,
 			'title' => $category->getName(),

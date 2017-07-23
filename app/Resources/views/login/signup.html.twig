@@ -4,13 +4,6 @@
 
 {% block content %}
 
-    {# if form has user exists error show this   #}
-    {# #}
-
-    <div class="notification is-danger">
-        An user with this email and/or username exists. You can login <a href="{{ path('login') }}">here</a>.
-    </div>
-
     {{ form_start(form) }}
 
         {{ form_rest(form) }}

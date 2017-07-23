@@ -18,4 +18,8 @@ AppBundle\Entity\User:
         password:
             type: string
             length: 255
+        createdAt:
+            type: datetime
+            nullable: true
+            column: created_at
     lifecycleCallbacks: {  }

@@ -81,21 +81,33 @@ table.table thead td {
 /* Table thread */
 table.thread .author {
     width: 20%;
+}
+table.thread .author .username {
     font-weight: bold;
     font-size: 18px;
 }
-table.thread .message {
+table.thread .author .info {
+    font-size: 12px;
+}
+table.thread .comment {
     padding: 0;
     background-color: transparent;
 }
-table.thread .message .date {
+table.thread .comment .date {
     padding: .3em .75em;
     background-color: #F5F5F5;
     border-bottom: 1px solid #dbdbdb;
     font-size: 14px;
 }
-table.thread .message .content {
+table.thread .comment .content {
     padding: .8em .75em;
+    margin-bottom: 0;
+}
+table.thread .comment .actions {
+    padding: 0.3em .75em;
+}
+table.thread .comment .actions .fa {
+    font-size: 16px;
 }
 
 /* last comment  */

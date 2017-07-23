@@ -26,7 +26,9 @@ class LoginController extends Controller
 		if ($form->isSubmitted() && $form->isValid()) {
 			$encoder = $this->get('security.password_encoder');
 			$password = $encoder->encodePassword($user, $user->getPassword());
-			$user->setPassword($password);
+			$user
+				->setPassword($password)
+				->setCreatedAt(new \DateTime());
 
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($user);

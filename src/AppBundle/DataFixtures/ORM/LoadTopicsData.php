@@ -16,8 +16,7 @@ class LoadTopicsData extends AbstractBaseFixture implements OrderedFixtureInterf
 
 		$user = $this->getReference('user-js-sensei');
 
-		foreach ($data as $key => $item)
-		{
+		foreach ($data as $key => $item) {
 			$category = $this->getReference('category-' . $item['category']);
 
 			$topic = (new Topic())
@@ -27,15 +26,13 @@ class LoadTopicsData extends AbstractBaseFixture implements OrderedFixtureInterf
 				->setUpdatedAt((new \DateTime()))
 				->setCreatedAt((new \DateTime()));
 
-			if (isset($item['created_at']))
-			{
+			if (isset($item['created_at'])) {
 				$topic
 					->setCreatedAt($item['created_at'])
 					->setUpdatedAt($item['created_at']);
 			}
 
-			if (isset($item['updated_at']))
-			{
+			if (isset($item['updated_at'])) {
 				$topic->setUpdatedAt($item['updated_at']);
 			}
 

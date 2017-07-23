@@ -29,6 +29,11 @@ class User implements UserInterface
      */
     private $password;
 
+	/**
+	 * @var \DateTime
+	 */
+	private $createdAt;
+
 
     /**
      * Get id
@@ -112,6 +117,30 @@ class User implements UserInterface
         return $this->password;
     }
 
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
 	public function getRoles()
 	{
 		return ['ROLE_USER'];
@@ -126,4 +155,3 @@ class User implements UserInterface
 	{
 	}
 }
-

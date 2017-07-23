@@ -24,7 +24,8 @@ class LoadUsersData extends AbstractBaseFixture implements OrderedFixtureInterfa
 		{
 			$user = (new User())
 				->setUsername($item['username'])
-				->setEmail($item['email']);
+				->setEmail($item['email'])
+				->setCreatedAt(new \DateTime($item['created_at']));
 
 			$password = $encoder->encodePassword($user, '1234');
 			$user->setPassword($password);
@@ -42,23 +43,28 @@ class LoadUsersData extends AbstractBaseFixture implements OrderedFixtureInterfa
 		return [
 			'reactmaster' => [
 				'username' => 'reactmaster',
-				'email' => 'foo@example.org'
+				'email' => 'foo@example.org',
+				'created_at' => '2017-01-20 19:00:05'
 			],
 			'king_php' => [
 				'username' => 'king_php',
-				'email' => 'baz@example.org'
+				'email' => 'baz@example.org',
+				'created_at' => '2017-01-25 19:00:05'
 			],
 			'js-sensei' => [
 				'username' => 'js-sensei',
-				'email' => 'bar@example.org'
+				'email' => 'bar@example.org',
+				'created_at' => '2017-02-15 11:00:05'
 			],
 			'dba2000' => [
 				'username' => 'dba2000',
-				'email' => 'dba@example.org'
+				'email' => 'dba@example.org',
+				'created_at' => '2017-05-09 08:30:05'
 			],
 			'test' => [
 				'username' => 'test',
-				'email' => 'test@example.org'
+				'email' => 'test@example.org',
+				'created_at' => '2017-02-28 23:00:05'
 			]
 		];
 	}

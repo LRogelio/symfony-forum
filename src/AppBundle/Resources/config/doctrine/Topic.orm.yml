@@ -47,3 +47,4 @@ AppBundle\Entity\Topic:
             mappedBy: topic
             fetch: EXTRA_LAZY
             orderBy: { 'createdAt': 'DESC' }
+            cascade: ['persist']

@@ -17,7 +17,6 @@ class TopicCommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-	        ->add('topicId', HiddenType::class)
             ->add('message', TextareaType::class, [
             	'label' => 'Message',
 	            'required' => false,
@@ -42,6 +41,6 @@ class TopicCommentType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_topic_comment';
+        return 'appbundle_topic_comment_form';
     }
 }

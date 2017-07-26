@@ -66,6 +66,6 @@ class SignupType extends AbstractType
 	 */
 	public function getBlockPrefix()
 	{
-		return 'appbundle_signup';
+		return 'appbundle_signup_form';
 	}
 }

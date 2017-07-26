@@ -3,18 +3,17 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Topic;
-use AppBundle\Entity\TopicCategory;
 use AppBundle\Entity\TopicComment;
 use AppBundle\Form\TopicCommentType;
+use AppBundle\Form\TopicType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Form\NewTopicType;
 use Symfony\Component\HttpFoundation\Request;
 
 class TopicController extends Controller
 {
 	/**
-	 * @Route("/topic/{topic}", name="topic_view")
+	 * @Route("/topic/{topic}", name="topic_view", requirements={"topic": "\d+"})
 	 */
 	public function viewTopicAction(Request $request, Topic $topic)
 	{
@@ -44,46 +43,77 @@ class TopicController extends Controller
 	}
 
 	/**
-	 * @Route("/category/{category}/topic/add", name="topic_add")
+	 * @Route("/topic/add", name="topic_add")
 	 */
-	public function createTopicAction(Request $request, TopicCategory $category)
+	public function createTopicAction(Request $request)
 	{
 		if (!$this->getUser()) {
 			return $this->redirectToRoute('login');
 		}
 
-		$topicEntry = (new Topic())->setCategoryId($category->getId());
-		$commentEntry = (new TopicComment())->setTopic($topicEntry);
+		$topicEntry = (new Topic())
+			->addComment(new TopicComment());
 
-		$form = $this->createForm(NewTopicType::class, $commentEntry);
+		$categoryId = $request->query->get('category', null);
+		if ($categoryId) {
+			$category = $this->getDoctrine()->getRepository('AppBundle:TopicCategory')->find($categoryId);
+			$topicEntry->setCategory($category);
+		}
 
+		$form = $this->createForm(TopicType::class, $topicEntry, ['comments' => true]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
 			$user = $this->getUser();
+			$topicEntry = $form->getData();
 
-			$commentEntry
-	             ->setCreatedAt(new \DateTime())
-	             ->setUpdatedAt(new \DateTime())
-				 ->setUser($user);
+			$topicEntry
+				->setUser($user)
+				->setCreatedAt(new \DateTime())
+				->setUpdatedAt(new \DateTime());
 
-			$commentEntry->getTopic()
+			$topicEntry->getComments()->first()
 				->setCreatedAt(new \DateTime())
 				->setUpdatedAt(new \DateTime())
-				->setCategory($category)
+				->setTopic($topicEntry)
 				->setUser($user);
 
 			$em->persist($topicEntry);
-			$em->persist($commentEntry);
 			$em->flush();
 
 			return $this->redirectToRoute('topic_view', ['topic' => $topicEntry->getId()]);
 		}
 
 		return $this->render('topic/add_topic.html.twig', [
-			'form' => $form->createView(),
-			'category' => $category
+			'title' => 'Add Topic',
+			'form' => $form->createView()
+		]);
+	}
+
+	/**
+	 * @Route("/topic/edit/{id}", name="topic_edit")
+	 */
+	public function editTopicAction(Request $request, Topic $topicEntry)
+	{
+		if (!$this->getUser() || $this->getUser()->getId() !== $topicEntry->getUser()->getId()) {
+			return $this->redirectToRoute('login');
+		}
+
+		$form = $this->createForm(TopicType::class, $topicEntry);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$form->getData()->setUpdatedAt(new \DateTime());
+			$em->flush();
+
+			return $this->redirectToRoute('topic_view', ['topic' => $topicEntry->getId()]);
+		}
+
+		return $this->render('topic/add_topic.html.twig', [
+			'title' => 'Edit Topic',
+			'form' => $form->createView()
 		]);
 	}
 
@@ -102,13 +132,13 @@ class TopicController extends Controller
 		if ($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
 
-			$topicCommentEntry = $form->getData()
+			$commentEntry = $form->getData()
 				->setCreatedAt(new \DateTime())
 				->setUpdatedAt(new \DateTime())
 				->setUser($this->getUser())
 				->setTopic($topic);
 
-			$em->persist($topicCommentEntry);
+			$em->persist($commentEntry);
 			$em->flush();
 
 			return $this->redirectToRoute('topic_view', ['topic' => $topic->getId()]);

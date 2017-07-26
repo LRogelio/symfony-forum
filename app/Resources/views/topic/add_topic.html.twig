@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% set title = 'Add Topic' %}
-
 {% block content %}
 
-    {{ form_start(form, {
-        action: path('topic_add', {category: category.id})
-    }) }}
+    {{ form_start(form) }}
 
-        {{ form_row(form.topic.title) }}
+        {{ form_row(form.category) }}
 
-        {{ form_rest(form) }}
+        {{ form_row(form.title) }}
+
+        {% if form.comments is defined %}
+            {{ form_row(form.comments[0].message) }}
+        {% endif %}
 
         <div class="field is-horizontal">
             <div class="field-label"></div>

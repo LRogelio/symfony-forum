@@ -1,32 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% set title = 'Add Comment' %}
+
 {% block content %}
 
-    {{ form_start(form) }}
-
-        <div class="field is-horizontal">
-            <div class="field-label">
-                <label class="label">Topic</label>
-            </div>
-            <div class="field-body">
-                {{ topicTitle }}
-            </div>
-        </div>
-
-        {{ form_rest(form) }}
-
-        <div class="field is-horizontal">
-            <div class="field-label"></div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control inline">
-                        <button type="submit" class="button is-primary">Save</button>
-                        <button type="button" class="button" onclick="javascript:window.history.go(-1);">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {{ form_end(form) }}
+    {% include 'topic/_comment_form.html.twig' with {
+        form: form,
+        save_button_label: 'Add',
+        topic: topic,
+        cancel_button_link: path('topic_view', { topic: topic.id })
+    } only %}
 
 {% endblock %}

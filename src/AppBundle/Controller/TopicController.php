@@ -45,7 +45,7 @@ class TopicController extends Controller
 	/**
 	 * @Route("/topic/add", name="topic_add")
 	 */
-	public function createTopicAction(Request $request)
+	public function addTopicAction(Request $request)
 	{
 		if (!$this->getUser()) {
 			return $this->redirectToRoute('login');
@@ -54,7 +54,7 @@ class TopicController extends Controller
 		$topicEntry = (new Topic())
 			->addComment(new TopicComment());
 
-		$categoryId = $request->query->get('category', null);
+		$categoryId = $request->query->get('category');
 		if ($categoryId) {
 			$category = $this->getDoctrine()->getRepository('AppBundle:TopicCategory')->find($categoryId);
 			$topicEntry->setCategory($category);
@@ -86,8 +86,8 @@ class TopicController extends Controller
 		}
 
 		return $this->render('topic/add_topic.html.twig', [
-			'title' => 'Add Topic',
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'categoryId' => $categoryId
 		]);
 	}
 
@@ -111,16 +111,16 @@ class TopicController extends Controller
 			return $this->redirectToRoute('topic_view', ['topic' => $topicEntry->getId()]);
 		}
 
-		return $this->render('topic/add_topic.html.twig', [
-			'title' => 'Edit Topic',
-			'form' => $form->createView()
+		return $this->render('topic/edit_topic.html.twig', [
+			'form' => $form->createView(),
+			'topic' => $topicEntry
 		]);
 	}
 
 	/**
 	 * @Route("/topic/{topic}/comment/add", name="topic_comment_add")
 	 */
-	public function createCommentAction(Request $request, Topic $topic)
+	public function addCommentAction(Request $request, Topic $topic)
 	{
 		if (!$this->getUser()) {
 			return $this->redirectToRoute('login');
@@ -146,8 +146,7 @@ class TopicController extends Controller
 
 		return $this->render('topic/add_comment.html.twig', [
 			'form' => $form->createView(),
-			'title' => 'Add Comment',
-			'topicTitle' => $topic->getTitle()
+			'topic' => $topic
 		]);
 	}
 
@@ -172,10 +171,9 @@ class TopicController extends Controller
 			]);
 		}
 
-		return $this->render('topic/add_comment.html.twig', [
+		return $this->render('topic/edit_comment.html.twig', [
 			'form' => $form->createView(),
-			'title' => 'Edit Comment',
-			'topicTitle' => $comment->getTopic()->getTitle()
+			'comment' => $comment
 		]);
 	}
 }

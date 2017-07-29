@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Edit Topic' %}
+
+{% block content %}
+
+    {% include 'topic/_topic_form.html.twig' with {
+        form: form,
+        save_button_label: 'Update',
+        cancel_button_link:  path('topic_view', { topic: topic.id })
+    } only %}
+
+{% endblock %}

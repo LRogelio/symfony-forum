@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+
+    {{ form_row(form.category) }}
+
+    {{ form_row(form.title) }}
+
+    {% if form.comments is defined %}
+        {{ form_row(form.comments[0].message) }}
+    {% endif %}
+
+    <div class="field is-horizontal">
+        <div class="field-label"></div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control inline">
+                    <button type="submit" class="button is-primary">{{ save_button_label }}</button>
+
+                    {% if cancel_button_link|default(false) %}
+                        <a class="button" href="{{ cancel_button_link }}">Cancel</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{ form_end(form) }}

@@ -23,7 +23,7 @@
                 </td>
 
                 <td class="last-comment">
-                    {% include 'partials/last_comment.html.twig' with {
+                    {% include 'partials/_last_comment.html.twig' with {
                         lastComment: topic.comments|first,
                         hideTopic: true
                     } only %}
@@ -35,7 +35,7 @@
         </tbody>
     </table>
 
-    {% include 'partials/pagination.html.twig' with {
+    {% include 'partials/_pagination.html.twig' with {
         paginator: topics,
         currentPage: currentPage,
         itemsPage: maxTopicsPage,

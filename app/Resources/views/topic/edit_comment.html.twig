@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Edit Comment' %}
+
+{% block content %}
+
+    {% include 'topic/_comment_form.html.twig' with {
+        form: form,
+        save_button_label: 'Update',
+        topic: comment.topic,
+        cancel_button_link: path('topic_view', { topic: comment.topic.id })
+    } only %}
+
+{% endblock %}

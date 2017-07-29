@@ -18,7 +18,7 @@
                     <div>{{ category.description }}</div>
                 </td>
                 <td class="last-comment">
-                    {% include 'partials/last_comment.html.twig' with {
+                    {% include 'partials/_last_comment.html.twig' with {
                         lastComment: latestComments[category.id]
                     } only %}
                 </td>

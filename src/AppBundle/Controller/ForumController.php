@@ -33,7 +33,7 @@ class ForumController extends Controller
 	/**
 	 * @Route("/category/{category}", name="category_topics")
 	 */
-	public function listCategoryTopicsAction(Request $request, TopicCategory $category)
+	public function listTopicsAction(Request $request, TopicCategory $category)
 	{
 		$maxTopicsPage = $this->container->getParameter('maxTopicsPage');
 
@@ -49,7 +49,7 @@ class ForumController extends Controller
 			['url' => $this->generateUrl('homepage'), 'text' => 'Forum']
 		];
 
-		return $this->render('forum/list_category_topics.html.twig', [
+		return $this->render('forum/list_topics.html.twig', [
 			'category' => $category,
 			'topics' => $topics,
 			'title' => $category->getName(),

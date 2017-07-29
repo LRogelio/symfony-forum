@@ -1,29 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% set title = 'Add Topic' %}
+
 {% block content %}
 
-    {{ form_start(form) }}
+    {% set cancel_url = (categoryId) ? path('category_topics', { category: categoryId }) : path('homepage')  %}
 
-        {{ form_row(form.category) }}
-
-        {{ form_row(form.title) }}
-
-        {% if form.comments is defined %}
-            {{ form_row(form.comments[0].message) }}
-        {% endif %}
-
-        <div class="field is-horizontal">
-            <div class="field-label"></div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control inline">
-                        <button type="submit" class="button is-primary">Save</button>
-                        <button type="button" class="button" onclick="javascript:window.history.go(-1);">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {{ form_end(form) }}
+    {% include 'topic/_topic_form.html.twig' with {
+        form: form,
+        save_button_label: 'Create',
+        cancel_button_link: cancel_url
+    } only %}
 
 {% endblock %}

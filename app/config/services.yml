@@ -7,3 +7,9 @@ services:
     app.form_login_authenticator:
         class: AppBundle\Security\FormLoginAuthenticator
         arguments: ["@router", "@security.password_encoder"]
+
+    app.topic_subscriber:
+        class: AppBundle\EventListener\TopicSubscriber
+        arguments: ["@mailer", "@doctrine.orm.entity_manager", "@templating", "%email_sender%"]
+        tags:
+         - { name: kernel.event_subscriber }

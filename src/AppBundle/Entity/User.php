@@ -34,6 +34,19 @@ class User implements UserInterface
 	 */
 	private $createdAt;
 
+	/**
+	 * @var \Doctrine\Common\Collections\Collection
+	 */
+	private $comments;
+
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
     /**
      * Get id
@@ -154,4 +167,38 @@ class User implements UserInterface
 	public function eraseCredentials()
 	{
 	}
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\TopicComment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\TopicComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\TopicComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\TopicComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

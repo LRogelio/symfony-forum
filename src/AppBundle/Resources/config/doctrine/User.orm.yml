@@ -23,3 +23,8 @@ AppBundle\Entity\User:
             nullable: true
             column: created_at
     lifecycleCallbacks: {  }
+    oneToMany:
+        comments:
+            targetEntity: TopicComment
+            mappedBy: user
+            fetch: EXTRA_LAZY

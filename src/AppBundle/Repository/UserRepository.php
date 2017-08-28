@@ -21,4 +21,21 @@ class UserRepository extends \Doctrine\ORM\EntityRepository implements UserLoade
 			->getQuery()
 			->getOneOrNullResult();
 	}
+
+	/**
+	 * Get users that have comments in the given topic id
+	 * @param $topicId
+	 * @return array
+	 */
+	public function getUsersByTopic($topicId)
+	{
+		$query = $this->createQueryBuilder('u')
+			->leftJoin('u.comments', 'c')
+			->where('c.topicId = :topicId')
+		    ->orderBy('c.createdAt', 'ASC')
+			->setParameter('topicId', $topicId)
+		    ->getQuery();
+
+		return $query->getResult();
+	}
 }

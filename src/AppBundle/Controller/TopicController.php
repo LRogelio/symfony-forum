@@ -4,11 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Topic;
 use AppBundle\Entity\TopicComment;
+use AppBundle\Events;
 use AppBundle\Form\TopicCommentType;
 use AppBundle\Form\TopicType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TopicController extends Controller
 {
@@ -140,6 +143,9 @@ class TopicController extends Controller
 
 			$em->persist($commentEntry);
 			$em->flush();
+
+			$eventDispatcher = $this->get('event_dispatcher');
+			$eventDispatcher->dispatch(Events::TOPIC_COMMENT_CREATED, new GenericEvent($commentEntry));
 
 			return $this->redirectToRoute('topic_view', ['topic' => $topic->getId()]);
 		}

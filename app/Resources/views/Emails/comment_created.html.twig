@@ -1,0 +1,11 @@
+<h1>New comment in topic {{ comment.topic.title }}</h1>
+
+<p><strong>{{ comment.user.username }}</strong> has commented:</p>
+
+<blockquote style="color: #666666; font-style: italic;">
+    {{ comment.message }}
+</blockquote>
+
+<p>
+    <a href="{{ app.request.getSchemeAndHttpHost() ~ path('topic_view', { topic: comment.topic.id }) }}">View more</a>
+</p>

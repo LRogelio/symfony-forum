@@ -21,3 +21,6 @@ parameters:
     # Forum settings
     maxTopicsPage: 10
     maxCommentsPage: 20
+
+    # Email notifications settings
+    email_sender: 'app@example.com'

@@ -35,6 +35,7 @@ AppBundle\Entity\TopicComment:
             fetch: EAGER
         user:
             targetEntity: User
+            inversedBy: comments
             joinColumn:
                 name: user_id
                 referencedColumnName: id

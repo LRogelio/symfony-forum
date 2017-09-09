@@ -1,0 +1,31 @@
+.admin-page > .columns > aside {
+    background-color: #232B2D;
+    padding: 40px;
+    min-height: 100vh;
+}
+.admin-page > .columns:not(:last-child) {
+    margin-bottom: 0;
+}
+
+/* Aside navigation */
+.admin-page > .columns > aside .menu-label {
+    color: #6F7B7E;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+}
+.admin-page > .columns > aside .menu-list li a {
+    color: #6F7B7E;
+}
+.admin-page > .columns > aside .menu-list li a:hover {
+    background-color: transparent;
+}
+.admin-page > .columns > aside .menu-list li.is-active a {
+    color: #FFFFFF;
+}
+
+/* Content wrapper */
+.admin-page > .columns > .content {
+    padding: 40px 20px;
+}

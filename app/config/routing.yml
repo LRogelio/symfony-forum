@@ -6,3 +6,8 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+user_profile:
+    resource: '@AppBundle/Controller/Panel'
+    type: annotation
+    prefix: /panel/

@@ -30,4 +30,15 @@ class TopicRepository extends \Doctrine\ORM\EntityRepository
 
 		return $paginator;
 	}
+
+	public function getTopicsByUser($userId)
+	{
+		$query = $this->createQueryBuilder('t')
+			->where('t.userId = :userId')
+			->orderBy('t.createdAt', 'DESC')
+			->setParameter('userId', $userId)
+			->getQuery();
+
+		return $query->getResult();
+	}
 }

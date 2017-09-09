@@ -225,16 +225,6 @@ class Topic
         return $this->comments;
     }
 
-	/**
-	 * Get last comment
-	 * @return mixed
-	 */
-    public function getLastComment()
-    {
-    	$comment = $this->comments->slice(0, 1);
-    	return array_shift($comment);
-    }
-
     /**
      * Set userId
      *

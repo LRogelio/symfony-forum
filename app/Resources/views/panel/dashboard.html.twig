@@ -1,0 +1,26 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block content %}
+    <div class="title is-4">Welcome, {{ app.user ? app.user.username : '' }}</div>
+
+    <div class="level is-mobile">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Joined</p>
+                <p class="title">{{ app.user.createdAt|date('d/m/Y') }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Topics</p>
+                <p class="title">{{ totalTopics }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Comments</p>
+                <p class="title">{{ app.user.comments|length }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -13,3 +13,9 @@ services:
         arguments: ["@mailer", "@doctrine.orm.entity_manager", "@templating", "%email_sender%"]
         tags:
          - { name: kernel.event_subscriber }
+
+    app.menu_builder:
+        class: AppBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createPanelMenu, alias: panel_menu }

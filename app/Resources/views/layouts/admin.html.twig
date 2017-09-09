@@ -1,0 +1,42 @@
+{% set title = knp_menu_get_current_item('panel_menu').label|default(false) %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ (title|default(false)) ? title~' - Symfony Forum':'Symfony Forum' }}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+</head>
+
+<body class="admin-page">
+
+{% include 'partials/_navigation.html.twig' %}
+
+<div class="columns">
+    <aside class="column is-2 menu is-hidden-mobile">
+        {{ knp_menu_render('panel_menu', {
+            currentClass: 'is-active'
+        }) }}
+    </aside>
+    <div class="column is-10 content">
+        {% if title is defined %}
+            <div class="title is-2">{{ title }}</div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+{% include 'partials/_footer.html.twig' %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="{{ asset('js/main.js') }}"></script>
+</body>
+</html>

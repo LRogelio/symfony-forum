@@ -1,0 +1,25 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Comment</th>
+                <th>Topic</th>
+                <th>Created At</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+            <tr>
+                <td>{{ comment.message|length > 100 ? comment.message[:100] ~ '...' : comment.message }}</td>
+                <td>{{ comment.topic.title }}</td>
+                <td>{{ comment.createdAt|date('d/m/Y H:i') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

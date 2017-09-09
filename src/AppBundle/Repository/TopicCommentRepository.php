@@ -43,4 +43,15 @@ class TopicCommentRepository extends \Doctrine\ORM\EntityRepository
 
 		return $query->getOneOrNullResult();
 	}
+
+	public function getCommentsByUser($userId)
+	{
+		$query = $this->createQueryBuilder('c')
+			->where('c.userId = :userId')
+			->orderBy('c.createdAt', 'DESC')
+			->setParameter('userId', $userId)
+			->getQuery();
+
+		return $query->getResult();
+	}
 }

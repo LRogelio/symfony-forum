@@ -10,10 +10,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/web.css') }}" rel="stylesheet">
 </head>
 <body>
 
-{% include 'partials/_navigation.html.twig' %}
+<div class="container">
+    {% include 'partials/_navigation.html.twig' %}
+</div>
 
 <section class="section">
     <div class="container">
@@ -30,20 +33,7 @@
     </div>
 </section>
 
-<footer class="footer">
-    <div class="container">
-        <div class="content has-text-centered">
-            <p>
-                <strong>Symfony Forum</strong> is a forum powered by <a href="http://symfony.com" target="_blank">Symfony</a>.
-            </p>
-            <p>
-                <a class="icon" href="#">
-                    <i class="fa fa-github"></i>
-                </a>
-            </p>
-        </div>
-    </div>
-</footer>
+{% include 'partials/_footer.html.twig' %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="{{ asset('js/main.js') }}"></script>

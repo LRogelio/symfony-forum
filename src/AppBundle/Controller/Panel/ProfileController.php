@@ -2,11 +2,12 @@
 
 namespace AppBundle\Controller\Panel;
 
+use AppBundle\Events;
 use AppBundle\Form\Panel\ChangePasswordType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Form\Panel\EditProfileType;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends Controller
@@ -29,7 +30,7 @@ class ProfileController extends Controller
 			$this->redirectToRoute('panel_edit_profile');
 		}
 
-		return $this->render('panel/panel_user/edit_profile.html.twig', [
+		return $this->render('panel/profile/edit_profile.html.twig', [
 			'form' => $form->createView()
 		]);
 	}
@@ -52,11 +53,14 @@ class ProfileController extends Controller
 
 			$this->getDoctrine()->getEntityManager()->flush();
 
+			$eventDispatcher = $this->get('event_dispatcher');
+			$eventDispatcher->dispatch(Events::USER_CHANGE_PASSWORD, new GenericEvent($this->getUser()));
+
 			$this->addFlash('notice', 'Your password has been updated successfully');
 			return $this->redirectToRoute('panel_change_password');
 		}
 
-		return $this->render('panel/panel_user/change_password.html.twig', [
+		return $this->render('panel/profile/change_password.html.twig', [
 			'form' => $form->createView()
 		]);
 	}

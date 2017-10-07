@@ -16,7 +16,7 @@ class ForumController extends Controller
 		$topics = $this->getDoctrine()->getRepository('AppBundle:Topic')->getTopicsByUser($user->getId());
 		$totalTopics = count($topics);
 
-		return $this->render('panel/dashboard.html.twig', [
+		return $this->render('panel/forum/dashboard.html.twig', [
 			'user' => $user,
 			'totalTopics' => $totalTopics
 		]);
@@ -30,7 +30,7 @@ class ForumController extends Controller
 		$user = $this->getUser();
 		$topics = $this->getDoctrine()->getRepository('AppBundle:Topic')->getTopicsByUser($user->getId());
 
-		return $this->render('panel/list_topics.html.twig', [
+		return $this->render('panel/forum/list_topics.html.twig', [
 			'topics' => $topics
 		]);
 	}
@@ -43,7 +43,7 @@ class ForumController extends Controller
 		$user = $this->getUser();
 		$comments = $this->getDoctrine()->getRepository('AppBundle:TopicComment')->getCommentsByUser($user->getId());
 
-		return $this->render('panel/list_comments.html.twig', [
+		return $this->render('panel/forum/list_comments.html.twig', [
 			'comments' => $comments
 		]);
 	}

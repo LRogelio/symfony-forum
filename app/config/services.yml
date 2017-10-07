@@ -19,3 +19,9 @@ services:
         arguments: ["@knp_menu.factory"]
         tags:
             - { name: knp_menu.menu_builder, method: createPanelMenu, alias: panel_menu }
+
+    app.change_password_form:
+        class: AppBundle\Form\Panel\ChangePasswordType
+        arguments: ["@security.password_encoder", "@security.token_storage"]
+        tags:
+            - { name: form.type }

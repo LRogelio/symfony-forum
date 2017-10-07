@@ -23,5 +23,8 @@ security:
                 path: logout
                 target: homepage
 
+    role_hierarchy:
+        ROLE_USER: [ROLE_USER]
+
     access_control:
         - { path: ^/profile, roles: ROLE_USER}

@@ -4,9 +4,8 @@ namespace AppBundle\Controller\Panel;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 
-class PanelController extends Controller
+class ForumController extends Controller
 {
 	/**
 	 * @Route("/", name="panel_dashboard")
@@ -47,34 +46,5 @@ class PanelController extends Controller
 		return $this->render('panel/list_comments.html.twig', [
 			'comments' => $comments
 		]);
-	}
-
-	/**
-	 * @Route("/user/edit", name="panel_edit_profile")
-	 */
-	public function editProfileAction()
-	{
-		$user = $this->getUser();
-
-//		$form = $this->createForm(null, $user);
-//
-//		if ($form->isValid() && $form->isSubmitted()) {
-//			// save
-//			// redirect to current page
-//		}
-
-
-
-		return $this->render('panel/edit_profile.html.twig', [
-			'content' => 'edit profile'
-		]);
-	}
-
-	/**
-	 * @Route("/user/change-password", name="panel_change_password")
-	 */
-	public function changePasswordAction()
-	{
-		die('change password action');
 	}
 }

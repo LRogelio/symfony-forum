@@ -1,4 +1,4 @@
-symfony-forum
+Symfony Forum
 =============
 
 Forum built with Symfony 3.
